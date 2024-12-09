@@ -11,6 +11,13 @@ class Product extends Model
         return slugify($this->name);
     }
 
+    public function getCategory()
+    {
+        return Category::find($this->category_id);
+
+    }    
+
+
     public function getUrl()
     {
         return '/products/' . $this->getSlug() . '-' . $this->id;
