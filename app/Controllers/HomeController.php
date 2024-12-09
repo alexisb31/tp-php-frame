@@ -10,7 +10,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $products = Product::get();
+        $products = Product::query()
+            ->where('price', '>', 0)
+            ->orderBy('price', 'desc')
+            ->orderby('name')
+            ->get();
 
         $categories = Category::get();
 

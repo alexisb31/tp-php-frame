@@ -9,12 +9,12 @@
 <header class="header">
     <div class="header-content">
         <span class="header-title">
-            <a href="/" class="header-link">Blog TP</a>
+            <a href="/" class="header-link">TP FRAME</FRAME></a>
         </span>
         <nav class="header-nav">
-            <a href="/" class="nav-link">tout-savoir</a>
-            <a href="#" class="nav-link">contact</a>
-            <a href="#" class="nav-link">pourquoi?</a>
+            <a href="/" class="nav-link">MOI </a>
+            <a href="#" class="nav-link">TOI </a>
+            <a href="#" class="nav-link">NOUS</a>
         </nav>
     </div>
 </header>

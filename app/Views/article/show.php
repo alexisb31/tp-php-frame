@@ -7,6 +7,7 @@
     <div class="article-content">
         <?= $article->content ?>
     </div>
+    
 </article>
 
 <?php require(__DIR__ . '/../layouts/footer.php'); ?>

@@ -8,11 +8,19 @@ class QueryBuilder
 {
     protected $model = null;
     protected $where = [];
-    protected $params = [];
+    protected $orderBy = [];
 
     public function model($model)
     {
         $this->model = $model;
+        return $this;
+    }
+
+
+
+    public function orderBy($column, $order = 'ASC')
+    {
+        $this->orderBy[] = compact('column', 'order');
         return $this;
     }
 
@@ -23,23 +31,42 @@ class QueryBuilder
             $operator = '=';
         }
 
-        $this->where[] = "$column $operator :$column";
-        $this->params[":$column"] = $value;
+        $this->where[] = compact('column', 'operator', 'value');
 
         return $this;
     }
 
-    public function get()
+    public function first(){
+        return $this->get(first:true);
+    }
+
+    public function get($first = false)
     {
-        $db = $this-> dbConnect();
+        $db = $this->dbConnect();
 
-        $sql = "SELECT * FROM " . $this->model::getTableName();
+        $sql = "SELECT * FROM " . $this->model::getTableName() . ' WHERE 1';
+
+        $values = [];
+
+        foreach ($this->where as $index => $condition) {
+            $sql .= ' AND ' . $condition['column'] . ' ' . $condition['operator'] . ' :' . $condition['column'] . $index;
+            $values[$condition['column'] . $index] = $condition['value'];
+        }
+
+        if (!empty($this->orderBy)) {
+            $orderByClauses = array_map(function ($order) {
+                return $order['column'] . ' ' . $order['order'];
+            }, $this->orderBy);
+            $sql .= ' ORDER BY ' . implode(', ', $orderByClauses);
+        }
+
         $query = $db->prepare($sql);
-        $query->execute();
 
-        $query-> setFetchMode(PDO::FETCH_CLASS, $this->model);
+        $query->execute($values);
 
-        return $query->fetchAll();
+        $query->setFetchMode(PDO::FETCH_CLASS, $this->model);
+
+        return $first ? $query->fetch() : $query->fetchAll();
     }
 
     protected function dbConnect()
@@ -47,5 +74,4 @@ class QueryBuilder
         return new PDO('mysql:host='.getenv('DB_HOST').';dbname='.getenv('DB_NAME'), getenv('DB_USER'), getenv('DB_PASS'));
     }
 
-    
 }

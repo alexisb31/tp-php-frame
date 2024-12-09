@@ -12,6 +12,7 @@
     <?php foreach($products as $product): ?>
         <h2><a href="<?= $product->getUrl() ?>"><?= $product->name ?></a></h2>
         <p><?= $product->description ?></p>
+        <p><?= $product->price ?>€</p>
     <?php endforeach; ?>
 </body>
 </html>

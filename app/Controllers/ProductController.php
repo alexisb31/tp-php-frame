@@ -9,6 +9,7 @@ class ProductController  extends Controller
 {
     public function show($slug, $id)
     {
+        
         $product = Product::find($id);
 
         if ($product->getSlug() !== $slug) {
