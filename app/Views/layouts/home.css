@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<title>Document</title>
-<style>
-
+/* Général */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -92,21 +88,3 @@ div a {
 div a:hover {
     background-color: #0056b3;
 }
-
-</style>
-
-<body>
-    <div>
-        <a href="/products/create">Ajouter un produit</a>
-    </div>
-    <div class="product-container">
-        <?php foreach ($products as $product): ?>
-            <div class="product-card">
-                <h2><a href="<?= $product->getUrl() ?>"><?= $product->name ?></a></h2>
-                <p><?= $product->description ?></p>
-                <p class="price"><?= $product->price ?>€</p>
-            </div>
-        <?php endforeach; ?>
-    </div>
-</body>
-</html>
